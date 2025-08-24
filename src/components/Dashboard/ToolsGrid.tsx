@@ -79,7 +79,7 @@ export function ToolsGrid() {
                         </Badge>
                       </div>
                       <div className="text-xs text-muted-foreground mt-1">
-                        {tool.success_rate.toFixed(1)}% success • {tool.total_queries.toLocaleString()} queries
+                        {(tool.success_rate || 0).toFixed(1)}% success • {(tool.total_queries || 0).toLocaleString()} queries
                       </div>
                       {tool.response_time_ms && (
                         <div className="text-xs text-muted-foreground">

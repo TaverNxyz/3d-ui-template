@@ -62,14 +62,15 @@ function Earth({ activityData = [] }: { activityData?: any[] }) {
     // Add activity points from real data
     ctx.fillStyle = '#f59e0b';
     activityData.forEach((activity, index) => {
-      if (activity.latitude && activity.longitude) {
+      if (activity.latitude != null && activity.longitude != null) {
         // Convert lat/lng to texture coordinates
         const x = ((activity.longitude + 180) / 360) * canvas.width;
         const y = ((90 - activity.latitude) / 180) * canvas.height;
         
         // Different colors for different severity
-        const color = activity.severity === 'high' ? '#ef4444' : 
-                     activity.severity === 'medium' ? '#f59e0b' : '#10b981';
+        const severity = activity.severity || 'low';
+        const color = severity === 'high' ? '#ef4444' : 
+                     severity === 'medium' ? '#f59e0b' : '#10b981';
         ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, Math.PI * 2);
@@ -129,7 +130,7 @@ function Earth({ activityData = [] }: { activityData?: any[] }) {
 
       {/* Connection lines between activity points */}
       {activityData.map((activity, index) => {
-        if (index === 0 || !activity.latitude || !activity.longitude) return null;
+        if (index === 0 || activity.latitude == null || activity.longitude == null) return null;
         
         return (
           <ConnectionLine
@@ -145,7 +146,7 @@ function Earth({ activityData = [] }: { activityData?: any[] }) {
 
 // Component for drawing connection lines between global activities
 function ConnectionLine({ start, end }: { start: any, end: any }) {
-  if (!start.latitude || !start.longitude || !end.latitude || !end.longitude) return null;
+  if (start.latitude == null || start.longitude == null || end.latitude == null || end.longitude == null) return null;
 
   const points = useMemo(() => {
     // Convert lat/lng to 3D coordinates on sphere

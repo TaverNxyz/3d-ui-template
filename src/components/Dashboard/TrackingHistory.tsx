@@ -70,18 +70,18 @@ export function TrackingHistory() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <p className="text-sm font-medium truncate">{activity.tool_used}</p>
+                  <p className="text-sm font-medium truncate">{activity.tool_used || 'Unknown Tool'}</p>
                   <div className="flex items-center space-x-1">
                     <Badge variant="outline" className={getTypeColor(activity.activity_type)}>
                       {activity.activity_type.replace('_', ' ')}
                     </Badge>
-                    <Badge variant="outline" className={getSeverityColor(activity.severity)}>
-                      {activity.severity}
+                    <Badge variant="outline" className={getSeverityColor(activity.severity || 'low')}>
+                      {activity.severity || 'low'}
                     </Badge>
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground mb-1">
-                  {activity.city}, {activity.country_code}
+                  {activity.city || 'Unknown'}, {activity.country_code || 'N/A'}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {new Date(activity.created_at).toLocaleString()}

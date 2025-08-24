@@ -1,37 +1,11 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
 
-export interface OSINTTool {
-  id: string;
-  name: string;
-  category: string;
-  status: string;
-  success_rate: number;
-  total_queries: number;
-  response_time_ms?: number;
-  last_check?: string;
-}
-
-export interface GlobalActivity {
-  id: string;
-  activity_type: string;
-  latitude: number;
-  longitude: number;
-  country_code: string;
-  city: string;
-  tool_used: string;
-  severity: string;
-  created_at: string;
-}
-
-export interface SystemMetric {
-  id: string;
-  metric_name: string;
-  metric_value: number;
-  metric_unit: string;
-  metric_type: string;
-  recorded_at: string;
-}
+// Use database types for better type safety
+export type OSINTTool = Database['public']['Tables']['osint_tools']['Row'];
+export type GlobalActivity = Database['public']['Tables']['global_activity']['Row'];
+export type SystemMetric = Database['public']['Tables']['system_metrics']['Row'];
 
 export function useOSINTTools() {
   const [tools, setTools] = useState<OSINTTool[]>([]);
@@ -47,7 +21,7 @@ export function useOSINTTools() {
           .order('total_queries', { ascending: false });
 
         if (error) throw error;
-        setTools(data || []);
+        setTools((data as OSINTTool[]) || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch tools');
       } finally {
@@ -93,7 +67,7 @@ export function useGlobalActivity() {
           .limit(50);
 
         if (error) throw error;
-        setActivities(data || []);
+        setActivities((data as GlobalActivity[]) || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch activities');
       } finally {
@@ -112,7 +86,9 @@ export function useGlobalActivity() {
         table: 'global_activity' 
       }, (payload) => {
         console.log('New activity:', payload);
-        setActivities(prev => [payload.new as GlobalActivity, ...prev].slice(0, 50));
+        if (payload.new) {
+          setActivities(prev => [payload.new as GlobalActivity, ...prev].slice(0, 50));
+        }
       })
       .subscribe();
 
@@ -138,7 +114,7 @@ export function useSystemMetrics() {
           .order('recorded_at', { ascending: false });
 
         if (error) throw error;
-        setMetrics(data || []);
+        setMetrics((data as SystemMetric[]) || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch metrics');
       } finally {
@@ -165,9 +141,9 @@ export function useMetric(metricName: string) {
   
   const metric = metrics.find(m => m.metric_name === metricName);
   return metric ? {
-    value: metric.metric_value,
-    unit: metric.metric_unit,
-    type: metric.metric_type,
+    value: metric.metric_value || 0,
+    unit: metric.metric_unit || '',
+    type: metric.metric_type || '',
     updated: metric.recorded_at
   } : null;
 }

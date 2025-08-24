@@ -18,7 +18,7 @@ export function AnalyticsGrid() {
 
   const getMetricValue = (name: string) => {
     const metric = metrics.find(m => m.metric_name === name);
-    return metric ? metric.metric_value : 0;
+    return metric ? (metric.metric_value || 0) : 0;
   };
 
   const formatValue = (name: string, value: number) => {
