@@ -9,26 +9,29 @@ export function Header() {
     <header className="h-16 border-b border-border/50 bg-card/30 backdrop-blur-sm">
       <div className="flex items-center justify-between h-full px-6">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <span className="text-sm font-bold text-white">VI</span>
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary via-accent to-primary-foreground flex items-center justify-center shadow-lg">
+            <span className="text-lg font-bold text-white">S</span>
           </div>
-          <span className="text-xl font-bold gradient-text">VISIONARY</span>
+          <div className="flex flex-col">
+            <span className="text-xl font-bold gradient-text">sintsation</span>
+            <span className="text-xs text-muted-foreground">.io</span>
+          </div>
         </div>
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Button variant="ghost" className="text-foreground hover:text-primary">
-            Ground
+            Intelligence
           </Button>
           <Button variant="ghost" className="text-foreground hover:text-primary">
-            Ocean
+            Analytics
           </Button>
           <Button variant="ghost" className="text-foreground hover:text-primary">
-            Expedited
+            Monitoring
           </Button>
           <Button variant="ghost" className="text-foreground hover:text-primary">
-            Services
+            OSINT Tools
           </Button>
           <Button variant="ghost" className="text-foreground hover:text-primary">
             Support
@@ -40,7 +43,7 @@ export function Header() {
           <div className="relative hidden lg:block">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input 
-              placeholder="Search analytics..." 
+              placeholder="Search OSINT data..." 
               className="w-64 pl-10 bg-background/50 border-border/50 focus:border-primary/50"
             />
           </div>

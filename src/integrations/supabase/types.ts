@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          geolocation: Json | null
+          id: string
+          ip_address: unknown | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          geolocation?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          geolocation?: Json | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       discord_ip_associations: {
         Row: {
           confidence_score: number | null
@@ -91,6 +124,87 @@ export type Database = {
           last_seen?: string | null
           mutual_servers?: number | null
           username?: string | null
+        }
+        Relationships: []
+      }
+      global_activity: {
+        Row: {
+          activity_type: string
+          city: string | null
+          country_code: string | null
+          created_at: string
+          id: string
+          latitude: number | null
+          longitude: number | null
+          metadata: Json | null
+          severity: string | null
+          tool_used: string | null
+        }
+        Insert: {
+          activity_type: string
+          city?: string | null
+          country_code?: string | null
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json | null
+          severity?: string | null
+          tool_used?: string | null
+        }
+        Update: {
+          activity_type?: string
+          city?: string | null
+          country_code?: string | null
+          created_at?: string
+          id?: string
+          latitude?: number | null
+          longitude?: number | null
+          metadata?: Json | null
+          severity?: string | null
+          tool_used?: string | null
+        }
+        Relationships: []
+      }
+      osint_tools: {
+        Row: {
+          api_endpoint: string | null
+          category: string
+          created_at: string
+          id: string
+          last_check: string | null
+          name: string
+          response_time_ms: number | null
+          status: string
+          success_rate: number | null
+          total_queries: number | null
+          updated_at: string
+        }
+        Insert: {
+          api_endpoint?: string | null
+          category: string
+          created_at?: string
+          id?: string
+          last_check?: string | null
+          name: string
+          response_time_ms?: number | null
+          status?: string
+          success_rate?: number | null
+          total_queries?: number | null
+          updated_at?: string
+        }
+        Update: {
+          api_endpoint?: string | null
+          category?: string
+          created_at?: string
+          id?: string
+          last_check?: string | null
+          name?: string
+          response_time_ms?: number | null
+          status?: string
+          success_rate?: number | null
+          total_queries?: number | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -209,6 +323,33 @@ export type Database = {
           },
         ]
       }
+      system_metrics: {
+        Row: {
+          id: string
+          metric_name: string
+          metric_type: string | null
+          metric_unit: string | null
+          metric_value: number | null
+          recorded_at: string
+        }
+        Insert: {
+          id?: string
+          metric_name: string
+          metric_type?: string | null
+          metric_unit?: string | null
+          metric_value?: number | null
+          recorded_at?: string
+        }
+        Update: {
+          id?: string
+          metric_name?: string
+          metric_type?: string | null
+          metric_unit?: string | null
+          metric_value?: number | null
+          recorded_at?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -238,7 +379,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_tool_metrics: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

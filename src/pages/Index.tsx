@@ -5,8 +5,10 @@ import { Globe3D } from '@/components/Globe3D';
 import { AnalyticsGrid } from '@/components/Dashboard/AnalyticsGrid';
 import { ToolsGrid } from '@/components/Dashboard/ToolsGrid';
 import { TrackingHistory } from '@/components/Dashboard/TrackingHistory';
+import { useGlobalActivity } from '@/hooks/useSupabaseData';
 
 const Index = () => {
+  const { activities } = useGlobalActivity();
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -24,7 +26,7 @@ const Index = () => {
             {/* Center Column - 3D Globe */}
             <div className="xl:col-span-1 flex items-center justify-center">
               <div className="w-full h-[500px] relative">
-                <Globe3D />
+                <Globe3D activityData={activities} />
               </div>
             </div>
             
